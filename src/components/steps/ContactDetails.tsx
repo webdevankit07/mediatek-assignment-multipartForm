@@ -40,7 +40,7 @@ const ContactDetails = ({ delta, register, errors }: ContactDetailsProps) => {
                     />
                     <span className='absolute top-16 text-xs mt-2 ml-1 text-red-500'>{errors.address?.message}</span>
                 </div>
-                <div className='flex max-lg:flex-col items-center gap-3 md:gap-5'>
+                <div className='flex max-lg:flex-col items-center gap-5'>
                     <div className='relative flex flex-col w-full'>
                         <label htmlFor='city' className='text-sm mb-2 cursor-pointer'>
                             City

@@ -17,7 +17,7 @@ const PersonalDetails = ({ delta, register, errors }: PersonalDetailsProps) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
             <FormHeading heading='Personal details' subheading='Provide your personal details.' />
-            <div className='mt-5 flex max-md:flex-col gap-5'>
+            <div className='mt-5 flex max-md:flex-col gap-7 md:gap-5'>
                 <div className='relative flex flex-col w-full'>
                     <label htmlFor='dateofb' className='text-sm mb-2 cursor-pointer'>
                         Date of Birth
@@ -35,7 +35,7 @@ const PersonalDetails = ({ delta, register, errors }: PersonalDetailsProps) => {
                         {errors.dateOfBirth?.message}
                     </span>
                 </div>
-                <div className='flex items-center gap-3 md:gap-5 w-full'>
+                <div className='flex items-center gap-5 w-full'>
                     <div className='relative flex flex-col w-full'>
                         <label htmlFor='gender' className='text-sm mb-2 cursor-pointer'>
                             Gender

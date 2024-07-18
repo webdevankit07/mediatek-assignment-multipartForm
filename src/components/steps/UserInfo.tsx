@@ -20,7 +20,7 @@ const UserInfo = ({ delta, register, watch, errors }: UserInfoProps) => {
         >
             <FormHeading heading='User Information' subheading='Provide your details.' />
             <div className='mt-5 space-y-7'>
-                <div className='flex max-lg:flex-col items-center gap-3 md:gap-5'>
+                <div className='flex max-lg:flex-col items-center gap-7 md:gap-5'>
                     <div className='relative flex flex-col w-full'>
                         <label htmlFor='firstname' className='text-sm mb-2 cursor-pointer'>
                             First name
@@ -65,7 +65,7 @@ const UserInfo = ({ delta, register, watch, errors }: UserInfoProps) => {
                         </span>
                     </div>
                 </div>
-                <div className='relative flex max-lg:flex-col items-center gap-3 md:gap-5'>
+                <div className='relative flex max-lg:flex-col items-center gap-7 md:gap-5'>
                     <div className='flex flex-col w-full'>
                         <label htmlFor='email' className='text-sm mb-2 cursor-pointer'>
                             Email
