@@ -35,10 +35,10 @@ const Home = () => {
 
     const next = async () => {
         if (currentStep < steps.length + 1) {
-            // const fields = steps[currentStep - 1].fields;
-            // const output = await trigger(fields, { shouldFocus: true });
+            const fields = steps[currentStep - 1].fields;
+            const output = await trigger(fields, { shouldFocus: true });
 
-            // if (!output) return;
+            if (!output) return;
 
             if (currentStep === steps.length) {
                 await handleSubmit(submitForm)();
