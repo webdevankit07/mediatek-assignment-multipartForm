@@ -19,3 +19,16 @@ export type Step = {
     name: string;
     fields: FieldName<FormData>[];
 };
+
+export type User = {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    gender: string;
+    password: string;
+    address: string;
+    city: string;
+    dateOfBirth: Date;
+    state: string;
+    zipCode: string;
+};
