@@ -6,5 +6,6 @@ export type UserContexType = {
     users: ResUser[] | null;
     getALlUser: () => Promise<void>;
     createUser: (val: User) => Promise<void>;
+    updateUser: (val: User, id: string) => Promise<void>;
     deleteUser: (userId: string) => Promise<void>;
 };

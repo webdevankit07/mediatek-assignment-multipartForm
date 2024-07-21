@@ -1,5 +1,6 @@
 import { useUser } from '@/context/UserContext';
 import { ResUser } from '@/types';
+import Link from 'next/link';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { Oval } from 'react-loader-spinner';
@@ -27,10 +28,13 @@ const UserData = ({ user, index }: Props) => {
             </td>
             <td className='max-lg:hidden'>{user.phoneNumber}</td>
             <td className='flex max-sm:flex-col px-3 justify-center items-center gap-3 lg:space-x-5 *:flex *:items-center *:gap-2 *:py-1.5 *:px-3 *:rounded *:min-w-[50px] *:md:min-w-[80px] *:text-xs'>
-                <button className='bg-green-600 hover:bg-green-500 active:bg-green-600 text-white'>
+                <Link
+                    href={`/update-user/${user.id}`}
+                    className='bg-green-600 hover:bg-green-500 active:bg-green-600 text-white'
+                >
                     <AiFillEdit />
                     Edit
-                </button>
+                </Link>
                 <button
                     className='bg-red-700 hover:bg-red-600 active:bg-red-700 text-white'
                     onClick={() => handleDelete(user.id)}

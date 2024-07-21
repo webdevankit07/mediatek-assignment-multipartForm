@@ -52,6 +52,33 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const updateUser = async (userData: User, userId: string) => {
+        setIsLoading(true);
+        setIsError(false);
+        try {
+            console.log(userData);
+
+            const { data } = await Axios.put<{ user: ResUser }>(`/users/update/${userId}`, userData);
+            if (users) {
+                const filterUsers = users.map((user) => {
+                    if (user.id === data.user.id) {
+                        return { ...data.user };
+                    } else {
+                        return user;
+                    }
+                });
+                setUsers(filterUsers);
+            }
+            toast.success('User updated');
+        } catch (error) {
+            setIsError(true);
+            const err = await handleAxiosError(error);
+            toast.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const deleteUser = async (userId: string) => {
         setIsLoading(true);
         setIsError(false);
@@ -78,6 +105,7 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
         users,
         getALlUser,
         createUser,
+        updateUser,
         deleteUser,
     };
 
