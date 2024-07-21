@@ -63,7 +63,7 @@ const Stepper = ({ currentStep }: StepperPropsTypes) => {
     }, [currentStep]);
 
     return (
-        <div className='mx-4 p-4 px-8 md:px-16 flex justify-between items-center text-slate-800'>
+        <div className='mx-4 p-4 px-5 md:px-16 flex justify-between items-center text-slate-800'>
             {newStep.map((step, index) => (
                 <div className={`flex items-center ${index !== newStep.length - 1 && 'w-full'}`} key={index}>
                     <div className={`relative flex flex-col items-center text-teal-600`}>

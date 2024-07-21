@@ -21,14 +21,18 @@ export type Step = {
 };
 
 export type User = {
+    id: string;
     name: string;
     email: string;
     phoneNumber: string;
     gender: string;
-    password: string;
     address: string;
     city: string;
     dateOfBirth: Date;
     state: string;
     zipCode: string;
+};
+
+export type ALlUsersResType = {
+    users: User[];
 };

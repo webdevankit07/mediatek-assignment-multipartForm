@@ -1,86 +1,69 @@
 'use client';
-import Stepper from '@/components/Stepper';
-import Completed from '@/components/steps/Completed';
-import ContactDetails from '@/components/steps/ContactDetails';
-import PersonalDetails from '@/components/steps/PersonalDetails';
-import UserInfo from '@/components/steps/UserInfo';
-import { FormData } from '@/types';
-import { steps } from '@/utils/data';
-import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import Loading from '@/components/shared/Loading';
+import Pagination from '@/components/UserData/Pagination';
+import UsersTable from '@/components/UserData/UsersTable';
+import { useUser } from '@/context/UserContext';
+import { User } from '@/types';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
-    const [previousStep, setPrevtStep] = useState(0);
-    const [currentStep, setCurrentStep] = useState(1);
-    const delta = currentStep - previousStep;
+    const { users } = useUser();
+    const [filterUsers, setFilterUsers] = useState<User[] | null>(null);
+    const [pageNo, setPageNo] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageNumbers, setPageNumbers] = useState([0]);
 
-    const {
-        register,
-        handleSubmit,
-        watch,
-        reset,
-        trigger,
-        formState: { errors },
-    } = useForm<FormData>();
+    useEffect(() => {
+        if (users) {
+            const filterUsers = users?.slice((pageNo - 1) * 10, pageNo * 10);
+            const totalPages = Math.ceil(users.length / 10);
+            const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    const submitForm: SubmitHandler<FormData> = async (formData) => {
-        console.log(formData);
+            setFilterUsers(filterUsers);
+            setTotalPages(totalPages);
+            setPageNumbers(pageNumbers);
+        }
+    }, [users, pageNo]);
 
-        setTimeout(() => {
-            reset();
-            setCurrentStep(1);
-        }, 2000);
-        setCurrentStep(1);
-    };
-
-    const next = async () => {
-        if (currentStep < steps.length + 1) {
-            const fields = steps[currentStep - 1].fields;
-            const output = await trigger(fields, { shouldFocus: true });
-
-            if (!output) return;
-
-            if (currentStep === steps.length) {
-                await handleSubmit(submitForm)();
-            }
-            setPrevtStep(currentStep);
-            setCurrentStep(currentStep + 1);
+    const handlePrev = () => {
+        if (pageNo > 1) {
+            setPageNo((prev) => prev - 1);
         }
     };
 
-    const prev = () => {
-        if (currentStep > 1) {
-            setPrevtStep(currentStep);
-            setCurrentStep(currentStep - 1);
+    const handleNext = () => {
+        if (pageNo < totalPages) {
+            setPageNo((prev) => prev + 1);
         }
     };
 
-    const btnStyle = `bg-gray-700 text-slate-100 uppercase text-sm py-2 max-w-32 w-full rounded-md cursor-pointer font-medium border-2 border-slate-300 hover:bg-green-600 active:hover:bg-green-700 hover:text-white transition duration-100 ease-in-out`;
+    return !filterUsers ? (
+        <Loading />
+    ) : (
+        <div className='container mx-auto md:px-8 lg:px-20'>
+            <div className='shadow-md rounded-lg pt-5 sm:my-5 md:py-10 px-5 md:px-8 bg-white md:my-20 max-md:min-h-screen overflow-hidden'>
+                <div className='flex items-center justify-between w-full py-2 px-5 bg-blue-900 rounded-md mb-8'>
+                    <h2 className='font-bold text-center text-white'>All Users</h2>
+                    <Link
+                        href={'/register-user'}
+                        className='py-2 px-5 text-sm rounded text-white inline-block bg-green-500 active:bg-green-600'
+                    >
+                        Register User
+                    </Link>
+                </div>
+                {/* User Data */}
+                <UsersTable filterUsers={filterUsers} />
 
-    return (
-        <div className='container mx-auto md:px-20'>
-            <div className='shadow-md rounded-lg pt-5 md:py-10 md:px-5 bg-white md:my-20 max-md:min-h-screen overflow-hidden'>
-                <div className='container'>
-                    <Stepper currentStep={currentStep} />
-                </div>
-                <div className='my-12 px-10'>
-                    <form className='px-2 md:px-10 py-5 mb-5'>
-                        {currentStep === 1 && (
-                            <UserInfo delta={delta} register={register} watch={watch} errors={errors} />
-                        )}
-                        {currentStep === 2 && <ContactDetails delta={delta} register={register} errors={errors} />}
-                        {currentStep === 3 && <PersonalDetails delta={delta} register={register} errors={errors} />}
-                        {currentStep === 4 && <Completed />}
-                    </form>
-                    <div className='container flex gap-2 px-10'>
-                        <button className={btnStyle} onClick={prev}>
-                            Back
-                        </button>
-                        <button className={btnStyle} onClick={next}>
-                            Next
-                        </button>
-                    </div>
-                </div>
+                {/* Pagination.. */}
+                <Pagination
+                    pageNo={pageNo}
+                    setPageNo={setPageNo}
+                    totalPages={totalPages}
+                    pageNumbers={pageNumbers}
+                    handlePrev={handlePrev}
+                    handleNext={handleNext}
+                />
             </div>
         </div>
     );
