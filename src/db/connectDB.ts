@@ -8,13 +8,7 @@ const db = mysql.createPool({
 });
 
 export const connectDB = async () => {
-    try {
-        const connection = await db.query('SELECT 1');
-        console.log('Database connected Successfully');
-    } catch (error: any) {
-        console.log('Database connection Error: ' + error.message);
-        process.exit(1);
-    }
+    return db.getConnection();
 };
 
 export default db;

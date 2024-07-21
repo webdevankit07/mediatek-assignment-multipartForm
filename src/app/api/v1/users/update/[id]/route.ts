@@ -1,8 +1,9 @@
-import db from '@/db/connectDB';
+import db, { connectDB } from '@/db/connectDB';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const PUT = async (req: NextRequest, { params }: { params: { id: string } }) => {
     try {
+        await connectDB();
         const { name, email, phoneNumber, gender, dateOfBirth, address, city, state, zipCode } = await req.json();
 
         const [user]: any[] = await db.query(`SELECT * FROM users WHERE id = "${params.id}"`);

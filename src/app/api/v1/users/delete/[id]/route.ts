@@ -1,9 +1,10 @@
-import db from '@/db/connectDB';
+import db, { connectDB } from '@/db/connectDB';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
     try {
+        await connectDB();
         const [user]: any[] = await db.query(`SELECT * FROM users WHERE id = "${params.id}"`);
         if (!user.length) {
             return NextResponse.json({ message: 'user not exist', success: false }, { status: 400 });

@@ -1,10 +1,11 @@
-import db from '@/db/connectDB';
+import db, { connectDB } from '@/db/connectDB';
 import { NextRequest, NextResponse } from 'next/server';
 import { uuid } from 'uuidv4';
 import bcrypt from 'bcryptjs';
 
 export const POST = async (req: NextRequest) => {
     try {
+        await connectDB();
         const {
             name,
             email,
