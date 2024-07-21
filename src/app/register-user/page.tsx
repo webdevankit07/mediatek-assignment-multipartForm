@@ -4,7 +4,8 @@ import Completed from '@/components/steps/Completed';
 import ContactDetails from '@/components/steps/ContactDetails';
 import PersonalDetails from '@/components/steps/PersonalDetails';
 import UserInfo from '@/components/steps/UserInfo';
-import { FormData } from '@/types';
+import { useUser } from '@/context/UserContext';
+import { FormData, User } from '@/types';
 import { steps } from '@/utils/data';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -13,6 +14,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { GrPrevious } from 'react-icons/gr';
 
 const Home = () => {
+    const { isLoading, isError, createUser, getALlUser } = useUser();
     const [previousStep, setPrevtStep] = useState(0);
     const [currentStep, setCurrentStep] = useState(1);
     const delta = currentStep - previousStep;
@@ -28,13 +30,17 @@ const Home = () => {
     } = useForm<FormData>();
 
     const submitForm: SubmitHandler<FormData> = async (formData) => {
-        console.log(formData);
-
-        setTimeout(() => {
+        const userData: User = {
+            ...formData,
+            name: `${formData.firstname} ${formData.lastname}`,
+        };
+        await createUser(userData);
+        console.log(isError);
+        if (!isError) {
+            await getALlUser();
+            router.push('/register-user');
             reset();
-            setCurrentStep(1);
-        }, 2000);
-        setCurrentStep(1);
+        }
     };
 
     const next = async () => {
@@ -86,9 +92,11 @@ const Home = () => {
                         <button className={btnStyle} onClick={prev}>
                             Back
                         </button>
-                        <button className={btnStyle} onClick={next}>
-                            Next
-                        </button>
+                        {currentStep !== 4 && (
+                            <button className={btnStyle} onClick={next}>
+                                {isLoading ? 'Loading...' : currentStep === 3 ? 'Submit' : 'Next'}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

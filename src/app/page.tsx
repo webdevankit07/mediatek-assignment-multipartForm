@@ -3,13 +3,13 @@ import Loading from '@/components/shared/Loading';
 import Pagination from '@/components/UserData/Pagination';
 import UsersTable from '@/components/UserData/UsersTable';
 import { useUser } from '@/context/UserContext';
-import { User } from '@/types';
+import { ResUser } from '@/types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const Home = () => {
-    const { users } = useUser();
-    const [filterUsers, setFilterUsers] = useState<User[] | null>(null);
+    const { users, isLoading } = useUser();
+    const [filterUsers, setFilterUsers] = useState<ResUser[] | null>(null);
     const [pageNo, setPageNo] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [pageNumbers, setPageNumbers] = useState([0]);
@@ -38,7 +38,7 @@ const Home = () => {
         }
     };
 
-    return !filterUsers ? (
+    return !filterUsers || isLoading ? (
         <Loading />
     ) : (
         <div className='container mx-auto md:px-8 lg:px-20'>

@@ -1,5 +1,10 @@
-import { User } from '.';
+import { ResUser, User } from '.';
 
 export type UserContexType = {
-    users: User[] | null;
+    isLoading: boolean;
+    isError: boolean;
+    users: ResUser[] | null;
+    getALlUser: () => Promise<void>;
+    createUser: (val: User) => Promise<void>;
+    deleteUser: (userId: string) => Promise<void>;
 };

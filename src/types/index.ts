@@ -11,7 +11,7 @@ export type FormData = {
     city: string;
     state: string;
     zipCode: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     gender: string;
 };
 
@@ -21,6 +21,18 @@ export type Step = {
 };
 
 export type User = {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    gender: string;
+    address: string;
+    city: string;
+    dateOfBirth: string;
+    state: string;
+    zipCode: string;
+};
+
+export type ResUser = {
     id: string;
     name: string;
     email: string;
@@ -28,11 +40,15 @@ export type User = {
     gender: string;
     address: string;
     city: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     state: string;
     zipCode: string;
 };
 
 export type ALlUsersResType = {
-    users: User[];
+    users: ResUser[];
+};
+
+export type DeleteUsersResType = {
+    users: ResUser;
 };
