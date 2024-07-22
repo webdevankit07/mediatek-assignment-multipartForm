@@ -56,8 +56,6 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(true);
         setIsError(false);
         try {
-            console.log(userData);
-
             const { data } = await Axios.put<{ user: ResUser }>(`/users/update/${userId}`, userData);
             if (users) {
                 const filterUsers = users.map((user) => {

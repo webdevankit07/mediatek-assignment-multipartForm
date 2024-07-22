@@ -1,9 +1,8 @@
-import db, { connectDB } from '@/db/connectDB';
+import db from '@/db/connectDB';
 import { NextResponse } from 'next/server';
 
 export const GET = async () => {
     try {
-        await connectDB();
         const [users]: any[] = await db.query('SELECT * FROM users');
         if (!users) {
             return NextResponse.json({ message: 'users not found', success: false }, { status: 400 });

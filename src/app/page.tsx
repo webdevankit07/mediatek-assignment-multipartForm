@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
     const { users, isLoading } = useUser();
-    const [filterUsers, setFilterUsers] = useState<ResUser[] | null>(null);
+    const [filterUsers, setFilterUsers] = useState<ResUser[] | null>();
     const [pageNo, setPageNo] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [pageNumbers, setPageNumbers] = useState([0]);

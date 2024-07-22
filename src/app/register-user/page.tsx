@@ -1,4 +1,5 @@
 'use client';
+import Preview from '@/components/shared/Preview';
 import Stepper from '@/components/Stepper';
 import Completed from '@/components/steps/Completed';
 import ContactDetails from '@/components/steps/ContactDetails';
@@ -12,11 +13,13 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { GrPrevious } from 'react-icons/gr';
+import { Oval } from 'react-loader-spinner';
 
 const Home = () => {
     const { isLoading, isError, createUser, getALlUser } = useUser();
     const [previousStep, setPrevtStep] = useState(0);
     const [currentStep, setCurrentStep] = useState(1);
+    const [userData, setUserData] = useState<User | null>(null);
     const delta = currentStep - previousStep;
     const router = useRouter();
 
@@ -29,18 +32,24 @@ const Home = () => {
         formState: { errors },
     } = useForm<FormData>();
 
-    const submitForm: SubmitHandler<FormData> = async (formData) => {
+    const submitForm = async (userData: User) => {
+        setUserData(null);
+        await createUser(userData);
+        if (!isError) {
+            await getALlUser();
+            setPrevtStep(currentStep);
+            setCurrentStep(currentStep + 1);
+            router.push('/');
+            reset();
+        }
+    };
+
+    const previewForm: SubmitHandler<FormData> = async (formData) => {
         const userData: User = {
             ...formData,
             name: `${formData.firstname} ${formData.lastname}`,
         };
-        await createUser(userData);
-        console.log(isError);
-        if (!isError) {
-            await getALlUser();
-            router.push('/register-user');
-            reset();
-        }
+        setUserData(userData);
     };
 
     const next = async () => {
@@ -51,10 +60,11 @@ const Home = () => {
             if (!output) return;
 
             if (currentStep === steps.length) {
-                await handleSubmit(submitForm)();
+                await handleSubmit(previewForm)();
+            } else {
+                setPrevtStep(currentStep);
+                setCurrentStep(currentStep + 1);
             }
-            setPrevtStep(currentStep);
-            setCurrentStep(currentStep + 1);
         }
     };
 
@@ -94,12 +104,28 @@ const Home = () => {
                         </button>
                         {currentStep !== 4 && (
                             <button className={btnStyle} onClick={next}>
-                                {isLoading ? 'Loading...' : currentStep === 3 ? 'Submit' : 'Next'}
+                                {isLoading ? (
+                                    <Oval
+                                        visible={true}
+                                        width={20}
+                                        height={20}
+                                        color='#ffffff'
+                                        secondaryColor='#d3d3d3'
+                                        ariaLabel='oval-loading'
+                                        strokeWidth={3}
+                                        strokeWidthSecondary={3}
+                                    />
+                                ) : currentStep === 3 ? (
+                                    'Preview'
+                                ) : (
+                                    'Next'
+                                )}
                             </button>
                         )}
                     </div>
                 </div>
             </div>
+            <Preview userData={userData} setUserData={setUserData} submitForm={submitForm} />
         </div>
     );
 };

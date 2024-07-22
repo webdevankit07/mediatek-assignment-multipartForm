@@ -4,10 +4,12 @@ import { Axios, handleAxiosError } from '@/config/axios';
 import { useUser } from '@/context/UserContext';
 import { FormData, ResUser, User } from '@/types';
 import { cities, states } from '@/utils/data';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { Oval } from 'react-loader-spinner';
 
 const UpdateUser = ({ params }: { params: { id: string } }) => {
     const { isLoading, isError, updateUser, getALlUser } = useUser();
@@ -39,7 +41,6 @@ const UpdateUser = ({ params }: { params: { id: string } }) => {
             name: `${formData.firstname}`,
         };
         await updateUser(userData, params.id);
-        console.log(isError);
         if (!isError) {
             await getALlUser();
             router.push('/');
@@ -280,8 +281,32 @@ const UpdateUser = ({ params }: { params: { id: string } }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='mt-10'>
-                        <button className='text-sm bg-green-700 text-white px-3 py-2 w-full rounded-md'>Update</button>
+                    <div className='mt-10 space-y-3'>
+                        <button className='flex items-center justify-center gap-3 text-sm bg-green-700 active:bg-green-800 text-white px-3 py-2 w-full rounded-md'>
+                            {isLoading ? (
+                                <>
+                                    <Oval
+                                        visible={true}
+                                        width={20}
+                                        height={20}
+                                        color='#ffffff'
+                                        secondaryColor='#d3d3d3'
+                                        ariaLabel='oval-loading'
+                                        strokeWidth={3}
+                                        strokeWidthSecondary={3}
+                                    />
+                                    <span>Updating...</span>
+                                </>
+                            ) : (
+                                'Update'
+                            )}
+                        </button>
+                        <Link
+                            href={'/'}
+                            className='flex items-center justify-center gap-3 text-sm bg-green-700 active:bg-green-800 text-white px-3 py-2 w-full rounded-md'
+                        >
+                            View All Users
+                        </Link>
                     </div>
                 </form>
             </div>
