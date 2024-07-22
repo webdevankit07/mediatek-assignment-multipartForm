@@ -8,6 +8,10 @@ In this project where Nextjs with TypeScript is used for the frontend user inter
 
 -   Website Link :- https://multistep-form-webdevankit.vercel.app/
 
+  ![Screenshot 2024-07-22 090811](https://github.com/user-attachments/assets/28a9568f-6666-4520-9deb-d525d1584fc7)
+  ![Screenshot 2024-07-22 090858](https://github.com/user-attachments/assets/e645d83f-8ffc-4954-880f-31410ad4e145)
+  ![Screenshot 2024-07-22 090835](https://github.com/user-attachments/assets/991156f4-620a-433d-bb0f-cad1d32c6a45)
+
 ## Tech Stack
 
 **Client:** Nextjs, TypeScript, TailwindCSS
